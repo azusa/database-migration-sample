@@ -1,0 +1,6 @@
+*~
+.vagrant
+vendor
+.DS_Store
+build
+Gemfile.lock

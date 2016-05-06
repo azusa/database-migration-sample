@@ -1,0 +1,10 @@
+{
+    "run_list": [
+        "yumsetup",
+        "iptables-off",
+        "ntpd",
+        "postgresql",
+        "database",
+        "man"
+    ]
+}

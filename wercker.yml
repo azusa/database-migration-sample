@@ -1,0 +1,72 @@
+box: phusion/passenger-ruby22
+no-response-timeout: 15
+
+# Build definition
+# See the Ruby section on the wercker devcenter:
+# http://devcenter.wercker.com/articles/languages/ruby.html
+build:
+  # The steps that will be executed on build
+  steps:
+
+    # A custom script step, name value is used in the UI
+    # and the code value contains the command that get executed
+    - script:
+        name: echo ruby information
+        code: |
+          echo "ruby version $(ruby --version) running"
+          echo "from location $(which ruby)"
+          echo -p "gem list: $(gem list)"
+    # Add more steps here:
+
+    - script:
+        name: create ~/.ssh
+        code: install -d -m 755 ~/.ssh
+
+    - create-file:
+        name: create ~/.ssh/ec2.pem
+        filename: $HOME/.ssh/ec2.pem
+        overwrite: true
+        hide-from-log: true
+        content: $EC2_SSH_KEY_PRIVATE
+
+    - script:
+        name: set permission for ~/.ssh/ec2.pem
+        code: chmod 400 $HOME/.ssh/ec2.pem
+
+    - script:
+        name: install vagrant
+        code: |
+          sudo apt-get install curl
+          curl -L -O https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb
+          sudo dpkg -i vagrant_1.8.1_x86_64.deb
+          which vagrant
+          vagrant -v
+          vagrant plugin install vagrant-omnibus
+          vagrant plugin install vagrant-aws
+          sudo apt-get install -y software-properties-common
+          sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
+          sudo add-apt-repository 'deb http://mirror3.layerjet.com/mariadb/repo/5.5/ubuntu precise main'
+          sudo apt-get update
+          sudo apt-get install -y rsync 
+    - script:
+        name: modify vagrant
+        code: |
+          sudo sed -i -e "/ControlMaster/d" /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/synced_folders/rsync/helper.rb
+          sudo sed -i -e "/ControlPath/d" /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/synced_folders/rsync/helper.rb
+          sudo sed -i -e "/ControlPersist/d" /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/synced_folders/rsync/helper.rb
+    - script:
+        name: vagrant up
+        code: vagrant up remote --provider=aws
+    # A step that executes `bundle install` command
+    - bundle-install
+    - script:
+        name: migration
+        code: vagrant ssh -c "/vagrant/migration/flyway -password=$PASSWORD_DEVELOPMENT -configFile=/vagrant/migration/conf/aws.conf migrate" remote 
+    - script:
+        name: serverspec
+        code: |
+          export VM_REMOTE=remote
+          bundle exec rake
+    - script:
+        name: vagrant destroy
+        code: vagrant destroy remote -f
