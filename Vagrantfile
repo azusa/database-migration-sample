@@ -9,11 +9,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.define :local do |local|
-    local.vm.box = "centos"
+  config.vm.define :local , primary: true do |local|
+    local.vm.box = "nrel/CentOS-6.5-x86_64"
   end
 
-  config.vm.define :remote do |remote|
+  config.vm.define :remote , autostart: false do |remote|
     remote.vm.box = "dummy"
     remote.vm.provider :aws do |aws, override|
       aws.access_key_id = ENV['aws_access_key_id']
@@ -35,7 +35,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "nrel/CentOS-6.5-x86_64"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.

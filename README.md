@@ -15,7 +15,7 @@ Vagrantが組み込みで使用しているBundlerの関係でBundlerはバー�
 ```
 git clone https://github.com/azusa/database-migration-sample.git
 bundle install
-vagrant up local
+vagrant up
 ```
 
 `vagrant up`コマンドでVMのプロビジョニングを行います。
