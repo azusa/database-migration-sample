@@ -51,7 +51,7 @@ build:
     - script:
         name: modify vagrant
         code: |
-          sudo sed -i -e "/ControlMaster/d" /opt/vagrant/embedded/gems/gems/varrant-1.8.4/plugins/synced_folders/rsync/helper.rb
+          sudo sed -i -e "/ControlMaster/d" /opt/vagrant/embedded/gems/gems/vagrant-1.8.4/plugins/synced_folders/rsync/helper.rb
           sudo sed -i -e "/ControlPath/d" /opt/vagrant/embedded/gems/gems/vagrant-1.8.4/plugins/synced_folders/rsync/helper.rb
           sudo sed -i -e "/ControlPersist/d" /opt/vagrant/embedded/gems/gems/vagrant-1.8.4/plugins/synced_folders/rsync/helper.rb
     - script:
