@@ -37,7 +37,7 @@ build:
         name: install vagrant
         code: |
           sudo apt-get install curl
-          curl -L -O https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb
+          curl -L -O https://releases.hashicorp.com/vagrant/1.8.4/vagrant_1.8.4_x86_64.deb
           sudo dpkg -i vagrant_1.8.1_x86_64.deb
           which vagrant
           vagrant -v
@@ -51,9 +51,9 @@ build:
     - script:
         name: modify vagrant
         code: |
-          sudo sed -i -e "/ControlMaster/d" /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/synced_folders/rsync/helper.rb
-          sudo sed -i -e "/ControlPath/d" /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/synced_folders/rsync/helper.rb
-          sudo sed -i -e "/ControlPersist/d" /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/synced_folders/rsync/helper.rb
+          sudo sed -i -e "/ControlMaster/d" /opt/vagrant/embedded/gems/gems/varrant-1.8.4/plugins/synced_folders/rsync/helper.rb
+          sudo sed -i -e "/ControlPath/d" /opt/vagrant/embedded/gems/gems/vagrant-1.8.4/plugins/synced_folders/rsync/helper.rb
+          sudo sed -i -e "/ControlPersist/d" /opt/vagrant/embedded/gems/gems/vagrant-1.8.4/plugins/synced_folders/rsync/helper.rb
     - script:
         name: vagrant up
         code: vagrant up remote --provider=aws
