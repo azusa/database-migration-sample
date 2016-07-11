@@ -35,7 +35,7 @@ end
 	end
 end
 
-VERSION="9.5.1"
+VERSION="9.5.3"
 file = "/usr/local/pgsql-#{VERSION}/bin/psql" 
 
 if not File.exists? file then
