@@ -6,10 +6,10 @@
 
 ## 必要な環境
 * VirtualBox 5.0.x
-* Vagrant 1.8.1
-* ruby 2.3.* + Bundler**1.10.6**
+* Vagrant 1.8.4
+* ruby 2.3.* + Bundler**1.12.5**
 
-Vagrantが組み込みで使用しているBundlerの関係でBundlerはバージョン固定になります。`gem install bundler -v 1.10.6`でインストールしてください。
+Vagrantが組み込みで使用しているBundlerの関係でBundlerはバージョン固定になります。`gem install bundler -v 1.12.5`でインストールしてください。
 
 ## セットアップ
 ```
